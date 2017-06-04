@@ -16,24 +16,27 @@ LOGOUT_URL = "https://zerojudge.tw/Logout"
 
 loginSession = requests.session();
 headers = {"User-Agent":"Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
-           "Content-Type":"application/x-www-form-urlencoded"}
+           "Content-Type":"application/x-www-form-urlencoded",
+           "Connection":"Keep-Alive"}
 res = loginSession.get(LOGIN_URL, headers=headers)
-soup = BeautifulSoup(res.text,"html.parser")
+soup = BeautifulSoup(res.text,"html5lib")
 token = soup.find("input", {"name":"token"})['value']
 try:
 	post={"token":token,"account":Username,"passwd":Password, "returnPage":"/UserStatistic"}
 	res = loginSession.post(LOGIN_URL, headers=headers, data=post)
 	if(res.url != LOGIN_URL):
 		res = loginSession.get(INFO_URL, headers=headers)
-		soup = BeautifulSoup(res.text,"html.parser")
+		soup = BeautifulSoup(res.text,"html5lib")
 		AC_count = soup.find("a", {"href" : RELATE_URL}).text
 		print("AC數: " + AC_count)
-		PageCount = int(int(AC_count) / 20) + 1;
-		for i in range(PageCount):
-			Url = BASE_URL + "&page=" + str(i+1)
+		PageCount = 1;
+		while(True):
+			Url = BASE_URL + "&page=" + str(PageCount)
 			res = loginSession.get(Url, headers=headers)
-			soup = BeautifulSoup(res.text,"html.parser")
+			soup = BeautifulSoup(res.text,"html5lib")
+			noData = True
 			for codeParent in soup.findAll("div", { "class" : "SolutionCode" }):
+				noData = False
 				solutionId = codeParent["solutionid"]
 				qustionInfo = soup.find("tr", {"solutionid":solutionId}).findAll("a")[1]
 				questionId = qustionInfo["href"].split("=")[1]
@@ -48,6 +51,11 @@ try:
 				f = open(OUTPUT_DICTIONARY + "/" + questionId + " " + questionName + "." + codeType.lower(), 'w', encoding = 'UTF-8')
 				f.write(code)
 				f.close()
+			# 如果沒資料了就跳出
+			if(noData):
+				break
+			# 下一頁
+			PageCount += 1
 	else :
 		print("帳密錯誤或登入次數過多")
 except Exception as inst:
