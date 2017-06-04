@@ -44,7 +44,7 @@ try:
 				if not os.path.exists(OUTPUT_DICTIONARY):#先確認資料夾是否存在
 					os.makedirs(OUTPUT_DICTIONARY)
 				# 刪除windows保留字
-				questionName = questionName.replace("\\","").replace(".","").replace("?","").replace("*","").replace("/","").replace("|","").replace(":","").replace(">","").replace("<","")
+				questionName = questionName.replace("\\","").replace(".","").replace("?","").replace("*","").replace("/","").replace("|","").replace(":","").replace(">","").replace("<","").replace("\"","")
 				f = open(OUTPUT_DICTIONARY + "/" + questionId + " " + questionName + "." + codeType.lower(), 'w', encoding = 'UTF-8')
 				f.write(code)
 				f.close()
