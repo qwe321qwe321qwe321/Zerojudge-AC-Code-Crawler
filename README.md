@@ -1,7 +1,7 @@
 # Zerojudge-AC-Code-Crawler
 爬zerojudge的AC code
 ## Dependencies
-* python 3.6
+* Python 3.6
 * [Requests](http://docs.python-requests.org/en/master/)
 * [BeatifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 * [html5lib](https://github.com/html5lib/html5lib-python)
