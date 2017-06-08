@@ -1,5 +1,7 @@
 # Zerojudge-AC-Code-Crawler
 爬zerojudge的AC code
+
+原本用python 3.6寫，可是pyinstaller不支援python3.6，剛好電腦還有灌Python 2.7就直接改寫了。因此release的執行檔是python2.7的版本
 ## Dependencies
 * Python 2.7/3.6
 * [Requests](http://docs.python-requests.org/en/master/)
@@ -22,3 +24,4 @@ int main(){
 # 刪除windows保留字
 questionName = questionName.replace("\\","").replace(".","").replace("?","").replace("*","").replace("/","").replace("|","").replace(":","").replace(">","").replace("<","").replace("\"","")
 ```
+* 後來改用Python 2.7遇到的編碼問題，因為太多了直接看coding時的[註解](Python2.7/Zerojudge-AC-Code-Crawler.py#L59)
